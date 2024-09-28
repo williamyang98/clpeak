@@ -49,6 +49,9 @@ set(CLPEAK_SOURCE_FILES
     src/compute_dp.cpp
     src/compute_integer.cpp
     src/compute_integer_fast.cpp
+    src/compute_char.cpp
+    src/compute_short.cpp
+    src/compute_long.cpp
     src/transfer_bandwidth.cpp
     src/kernel_latency.cpp
     src/entry.cpp

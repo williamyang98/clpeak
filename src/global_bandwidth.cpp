@@ -26,8 +26,8 @@ int clPeak::runGlobalBandwidthTest(cl::CommandQueue &queue, cl::Program &prog, d
     log->xmlOpenTag("global_memory_bandwidth");
     log->xmlAppendAttribs("unit", "gbps");
 
-    cl::Buffer inputBuf = cl::Buffer(ctx, CL_MEM_READ_ONLY, (numItems * sizeof(float)));
-    cl::Buffer outputBuf = cl::Buffer(ctx, CL_MEM_WRITE_ONLY, (numItems * sizeof(float)));
+    cl::Buffer inputBuf = cl::Buffer(ctx, get_read_mem_flags(), (numItems * sizeof(float)));
+    cl::Buffer outputBuf = cl::Buffer(ctx, get_write_mem_flags(), (numItems * sizeof(float)));
     queue.enqueueWriteBuffer(inputBuf, CL_TRUE, 0, (numItems * sizeof(float)), arr);
 
     cl::Kernel kernel_v1_lo(prog, "global_bandwidth_v1_local_offset");

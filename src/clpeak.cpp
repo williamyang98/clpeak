@@ -10,6 +10,9 @@ static const std::string stringifiedKernels =
 #include "compute_dp_kernels.cl"
 #include "compute_int24_kernels.cl"
 #include "compute_integer_kernels.cl"
+#include "compute_char_kernels.cl"
+#include "compute_short_kernels.cl"
+#include "compute_long_kernels.cl"
     ;
 
 #ifdef USE_STUB_OPENCL
@@ -20,12 +23,13 @@ extern "C"
 }
 #endif
 
-clPeak::clPeak() : forcePlatform(false), forceDevice(false), forceTest(false), useEventTimer(false),
-                   isGlobalBW(true), isComputeHP(true), isComputeSP(true), isComputeDP(true), isComputeIntFast(true), isComputeInt(true),
-                   isTransferBW(true), isKernelLatency(true),
-                   specifiedPlatform(0), specifiedDevice(0),
-                   forcePlatformName(false), forceDeviceName(false),
-                   specifiedPlatformName(0), specifiedDeviceName(0), specifiedTestName(0)
+clPeak::clPeak() : 
+    forcePlatform(false), forcePlatformName(false), forceDevice(false), forceDeviceName(false), forceTest(false), useEventTimer(false),
+    isGlobalBW(true), isComputeHP(true), isComputeSP(true), isComputeDP(true), isComputeIntFast(true), isComputeInt(true),
+    isTransferBW(true), isKernelLatency(true),
+    isUseHostMemory(false),
+    specifiedPlatform(0), specifiedDevice(0),
+    specifiedPlatformName(0), specifiedDeviceName(0), specifiedTestName(0)
 {
 }
 
@@ -121,6 +125,9 @@ int clPeak::runAll()
         runComputeDP(queue, prog, devInfo);
         runComputeInteger(queue, prog, devInfo);
         runComputeIntFast(queue, prog, devInfo);
+        runComputeChar(queue, prog, devInfo);
+        runComputeShort(queue, prog, devInfo);
+        runComputeLong(queue, prog, devInfo);
         runTransferBandwidthTest(queue, prog, devInfo);
         runKernelLatency(queue, prog, devInfo);
 

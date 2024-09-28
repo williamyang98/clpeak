@@ -20,8 +20,8 @@ int clPeak::runKernelLatency(cl::CommandQueue &queue, cl::Program &prog, device_
     log->xmlOpenTag("kernel_launch_latency");
     log->xmlAppendAttribs("unit", "us");
 
-    cl::Buffer inputBuf = cl::Buffer(ctx, CL_MEM_READ_ONLY, (numItems * sizeof(float)));
-    cl::Buffer outputBuf = cl::Buffer(ctx, CL_MEM_WRITE_ONLY, (numItems * sizeof(float)));
+    cl::Buffer inputBuf = cl::Buffer(ctx, get_read_mem_flags(), (numItems * sizeof(float)));
+    cl::Buffer outputBuf = cl::Buffer(ctx, get_write_mem_flags(), (numItems * sizeof(float)));
 
     cl::Kernel kernel_v1(prog, "global_bandwidth_v1_local_offset");
     kernel_v1.setArg(0, inputBuf), kernel_v1.setArg(1, outputBuf);

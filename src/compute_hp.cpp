@@ -29,7 +29,7 @@ int clPeak::runComputeHP(cl::CommandQueue &queue, cl::Program &prog, device_info
     uint64_t t = std::min((globalWIs * sizeof(cl_half)), devInfo.maxAllocSize) / sizeof(cl_half);
     globalWIs = roundToMultipleOf(t, devInfo.maxWGSize);
 
-    cl::Buffer outputBuf = cl::Buffer(ctx, CL_MEM_WRITE_ONLY, (globalWIs * sizeof(cl_half)));
+    cl::Buffer outputBuf = cl::Buffer(ctx, get_write_mem_flags(), (globalWIs * sizeof(cl_half)));
 
     globalSize = globalWIs;
     localSize = devInfo.maxWGSize;

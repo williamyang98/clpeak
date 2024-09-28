@@ -23,6 +23,7 @@ static const char *helpStr =
     "\n  --kernel-latency            selectively run kernel latency test"
     "\n  --all-tests                 run all above tests [default]"
     "\n  --enable-xml-dump           Dump results to xml file"
+    "\n  --use-host-memory           Will read and write to host memory"
     "\n  -f, --xml-file file_name    specify file name for xml dump"
     "\n  -v, --version               display version"
     "\n  -h, --help                  display help message"
@@ -36,7 +37,11 @@ int clPeak::parseArgs(int argc, char **argv)
 
   for (int i = 1; i < argc; i++)
   {
-    if ((strcmp(argv[i], "-h") == 0) || (strcmp(argv[i], "--help") == 0))
+    if (strcmp(argv[i], "--use-host-memory") == 0)
+    {
+        isUseHostMemory = true;
+    }
+    else if ((strcmp(argv[i], "-h") == 0) || (strcmp(argv[i], "--help") == 0))
     {
       log->print(helpStr);
       log->print(NEWLINE);

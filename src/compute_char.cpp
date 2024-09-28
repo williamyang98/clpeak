@@ -1,55 +1,55 @@
 #include <clpeak.h>
 
-int clPeak::runComputeSP(cl::CommandQueue &queue, cl::Program &prog, device_info_t &devInfo)
+int clPeak::runComputeChar(cl::CommandQueue &queue, cl::Program &prog, device_info_t &devInfo)
 {
   float timed, gflops;
   cl_uint workPerWI;
   cl::NDRange globalSize, localSize;
-  cl_float A = 1.3f;
+  cl_char A = 4;
   uint iters = devInfo.computeIters;
 
-  if (!isComputeSP)
+  if (!isComputeInt)
     return 0;
 
   try
   {
-    log->print(NEWLINE TAB TAB "Single-precision compute (GFLOPS)" NEWLINE);
-    log->xmlOpenTag("single_precision_compute");
-    log->xmlAppendAttribs("unit", "gflops");
+    log->print(NEWLINE TAB TAB "Char compute (GIOPS)" NEWLINE);
+    log->xmlOpenTag("char_compute");
+    log->xmlAppendAttribs("unit", "giops");
 
     cl::Context ctx = queue.getInfo<CL_QUEUE_CONTEXT>();
 
     uint64_t globalWIs = (devInfo.numCUs) * (devInfo.computeWgsPerCU) * (devInfo.maxWGSize);
-    uint64_t t = std::min((globalWIs * sizeof(cl_float)), devInfo.maxAllocSize) / sizeof(cl_float);
+    uint64_t t = std::min((globalWIs * sizeof(cl_char)), devInfo.maxAllocSize) / sizeof(cl_char);
     globalWIs = roundToMultipleOf(t, devInfo.maxWGSize);
 
-    cl::Buffer outputBuf = cl::Buffer(ctx, get_write_mem_flags(), (globalWIs * sizeof(cl_float)));
+    cl::Buffer outputBuf = cl::Buffer(ctx, get_write_mem_flags(), (globalWIs * sizeof(cl_char)));
 
     globalSize = globalWIs;
     localSize = devInfo.maxWGSize;
 
-    cl::Kernel kernel_v1(prog, "compute_sp_v1");
+    cl::Kernel kernel_v1(prog, "compute_char_v1");
     kernel_v1.setArg(0, outputBuf), kernel_v1.setArg(1, A);
 
-    cl::Kernel kernel_v2(prog, "compute_sp_v2");
+    cl::Kernel kernel_v2(prog, "compute_char_v2");
     kernel_v2.setArg(0, outputBuf), kernel_v2.setArg(1, A);
 
-    cl::Kernel kernel_v4(prog, "compute_sp_v4");
+    cl::Kernel kernel_v4(prog, "compute_char_v4");
     kernel_v4.setArg(0, outputBuf), kernel_v4.setArg(1, A);
 
-    cl::Kernel kernel_v8(prog, "compute_sp_v8");
+    cl::Kernel kernel_v8(prog, "compute_char_v8");
     kernel_v8.setArg(0, outputBuf), kernel_v8.setArg(1, A);
 
-    cl::Kernel kernel_v16(prog, "compute_sp_v16");
+    cl::Kernel kernel_v16(prog, "compute_char_v16");
     kernel_v16.setArg(0, outputBuf), kernel_v16.setArg(1, A);
 
     ///////////////////////////////////////////////////////////////////////////
     // Vector width 1
-    if (!forceTest || strcmp(specifiedTestName, "float") == 0)
+    if (!forceTest || strcmp(specifiedTestName, "char") == 0)
     {
-      log->print(TAB TAB TAB "float   : ");
+      log->print(TAB TAB TAB "char  : ");
 
-      workPerWI = 4096; // Indicates flops executed per work-item
+      workPerWI = 2048*4; // Indicates char operations executed per work-item
 
       timed = run_kernel(queue, kernel_v1, globalSize, localSize, iters);
 
@@ -57,16 +57,16 @@ int clPeak::runComputeSP(cl::CommandQueue &queue, cl::Program &prog, device_info
 
       log->print(gflops);
       log->print(NEWLINE);
-      log->xmlRecord("float", gflops);
+      log->xmlRecord("char", gflops);
     }
     ///////////////////////////////////////////////////////////////////////////
 
     // Vector width 2
-    if (!forceTest || strcmp(specifiedTestName, "float2") == 0)
+    if (!forceTest || strcmp(specifiedTestName, "char2") == 0)
     {
-      log->print(TAB TAB TAB "float2  : ");
+      log->print(TAB TAB TAB "char2 : ");
 
-      workPerWI = 4096;
+      workPerWI = 2048*4;
 
       timed = run_kernel(queue, kernel_v2, globalSize, localSize, iters);
 
@@ -74,16 +74,16 @@ int clPeak::runComputeSP(cl::CommandQueue &queue, cl::Program &prog, device_info
 
       log->print(gflops);
       log->print(NEWLINE);
-      log->xmlRecord("float2", gflops);
+      log->xmlRecord("char2", gflops);
     }
     ///////////////////////////////////////////////////////////////////////////
 
     // Vector width 4
-    if (!forceTest || strcmp(specifiedTestName, "float4") == 0)
+    if (!forceTest || strcmp(specifiedTestName, "char4") == 0)
     {
-      log->print(TAB TAB TAB "float4  : ");
+      log->print(TAB TAB TAB "char4 : ");
 
-      workPerWI = 4096;
+      workPerWI = 2048*4;
 
       timed = run_kernel(queue, kernel_v4, globalSize, localSize, iters);
 
@@ -91,16 +91,16 @@ int clPeak::runComputeSP(cl::CommandQueue &queue, cl::Program &prog, device_info
 
       log->print(gflops);
       log->print(NEWLINE);
-      log->xmlRecord("float4", gflops);
+      log->xmlRecord("char4", gflops);
     }
     ///////////////////////////////////////////////////////////////////////////
 
     // Vector width 8
-    if (!forceTest || strcmp(specifiedTestName, "float8") == 0)
+    if (!forceTest || strcmp(specifiedTestName, "char8") == 0)
     {
-      log->print(TAB TAB TAB "float8  : ");
+      log->print(TAB TAB TAB "char8 : ");
 
-      workPerWI = 4096;
+      workPerWI = 2048*4;
 
       timed = run_kernel(queue, kernel_v8, globalSize, localSize, iters);
 
@@ -108,16 +108,16 @@ int clPeak::runComputeSP(cl::CommandQueue &queue, cl::Program &prog, device_info
 
       log->print(gflops);
       log->print(NEWLINE);
-      log->xmlRecord("float8", gflops);
+      log->xmlRecord("char8", gflops);
     }
     ///////////////////////////////////////////////////////////////////////////
 
     // Vector width 16
-    if (!forceTest || strcmp(specifiedTestName, "float16") == 0)
+    if (!forceTest || strcmp(specifiedTestName, "char16") == 0)
     {
-      log->print(TAB TAB TAB "float16 : ");
+      log->print(TAB TAB TAB "char16: ");
 
-      workPerWI = 4096;
+      workPerWI = 2048*4;
 
       timed = run_kernel(queue, kernel_v16, globalSize, localSize, iters);
 
@@ -125,10 +125,10 @@ int clPeak::runComputeSP(cl::CommandQueue &queue, cl::Program &prog, device_info
 
       log->print(gflops);
       log->print(NEWLINE);
-      log->xmlRecord("float16", gflops);
+      log->xmlRecord("char16", gflops);
     }
     ///////////////////////////////////////////////////////////////////////////
-    log->xmlCloseTag(); // single_precision_compute
+    log->xmlCloseTag(); // char_compute
   }
   catch (cl::Error &error)
   {

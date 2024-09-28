@@ -29,7 +29,7 @@ int clPeak::runComputeDP(cl::CommandQueue &queue, cl::Program &prog, device_info
     uint64_t t = std::min((globalWIs * sizeof(cl_double)), devInfo.maxAllocSize) / sizeof(cl_double);
     globalWIs = roundToMultipleOf(t, devInfo.maxWGSize);
 
-    cl::Buffer outputBuf = cl::Buffer(ctx, CL_MEM_WRITE_ONLY, (globalWIs * sizeof(cl_double)));
+    cl::Buffer outputBuf = cl::Buffer(ctx, get_write_mem_flags(), (globalWIs * sizeof(cl_double)));
 
     globalSize = globalWIs;
     localSize = devInfo.maxWGSize;
