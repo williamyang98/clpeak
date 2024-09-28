@@ -8,7 +8,7 @@ int clPeak::runComputeChar(cl::CommandQueue &queue, cl::Program &prog, device_in
   cl_char A = 4;
   uint iters = devInfo.computeIters;
 
-  if (!isComputeInt)
+  if (!isComputeChar)
     return 0;
 
   try

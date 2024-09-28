@@ -8,7 +8,7 @@ int clPeak::runComputeShort(cl::CommandQueue &queue, cl::Program &prog, device_i
   cl_short A = 4;
   uint iters = devInfo.computeIters;
 
-  if (!isComputeInt)
+  if (!isComputeShort)
     return 0;
 
   try
@@ -62,7 +62,8 @@ int clPeak::runComputeShort(cl::CommandQueue &queue, cl::Program &prog, device_i
     ///////////////////////////////////////////////////////////////////////////
 
     // Vector width 2
-    if (!forceTest || strcmp(specifiedTestName, "int2") == 0)
+
+    if (!forceTest || strcmp(specifiedTestName, "short2") == 0)
     {
       log->print(TAB TAB TAB "short2 : ");
 
@@ -79,9 +80,9 @@ int clPeak::runComputeShort(cl::CommandQueue &queue, cl::Program &prog, device_i
     ///////////////////////////////////////////////////////////////////////////
 
     // Vector width 4
-    if (!forceTest || strcmp(specifiedTestName, "int4") == 0)
+    if (!forceTest || strcmp(specifiedTestName, "short4") == 0)
     {
-      log->print(TAB TAB TAB "short4 : ");
+      log->print(TAB TAB TAB "short4  : ");
 
       workPerWI = 2048*4;
 
@@ -98,7 +99,7 @@ int clPeak::runComputeShort(cl::CommandQueue &queue, cl::Program &prog, device_i
     // Vector width 8
     if (!forceTest || strcmp(specifiedTestName, "short8") == 0)
     {
-      log->print(TAB TAB TAB "short8 : ");
+      log->print(TAB TAB TAB "short8  : ");
 
       workPerWI = 2048*4;
 
@@ -115,7 +116,7 @@ int clPeak::runComputeShort(cl::CommandQueue &queue, cl::Program &prog, device_i
     // Vector width 16
     if (!forceTest || strcmp(specifiedTestName, "short16") == 0)
     {
-      log->print(TAB TAB TAB "short16: ");
+      log->print(TAB TAB TAB "short16 : ");
 
       workPerWI = 2048*4;
 

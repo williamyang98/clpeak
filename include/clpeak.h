@@ -17,7 +17,7 @@ class clPeak
 {
 public:
   bool forcePlatform, forcePlatformName, forceDevice, forceDeviceName, forceTest, useEventTimer;
-  bool isGlobalBW, isComputeHP, isComputeSP, isComputeDP, isComputeIntFast, isComputeInt, isTransferBW, isKernelLatency;
+  bool isGlobalBW, isComputeHP, isComputeSP, isComputeDP, isComputeIntFast, isComputeInt, isTransferBW, isKernelLatency, isComputeChar, isComputeShort;
   bool isUseHostMemory;
   ulong specifiedPlatform, specifiedDevice;
   char *specifiedPlatformName;
