@@ -8,7 +8,7 @@ int clPeak::runComputeLong(cl::CommandQueue &queue, cl::Program &prog, device_in
   cl_long A = 4;
   uint iters = devInfo.computeIters;
 
-  if (!isComputeInt)
+  if (!isComputeLong)
     return 0;
 
   try

@@ -27,6 +27,7 @@ clPeak::clPeak() :
     forcePlatform(false), forcePlatformName(false), forceDevice(false), forceDeviceName(false), forceTest(false), useEventTimer(false),
     isGlobalBW(true), isComputeHP(true), isComputeSP(true), isComputeDP(true), isComputeIntFast(true), isComputeInt(true),
     isTransferBW(true), isKernelLatency(true),
+    isComputeChar(true), isComputeShort(true), isComputeLong(true),
     isUseHostMemory(false),
     specifiedPlatform(0), specifiedDevice(0),
     specifiedPlatformName(0), specifiedDeviceName(0), specifiedTestName(0)
